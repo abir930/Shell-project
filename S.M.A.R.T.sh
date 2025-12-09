@@ -1,7 +1,7 @@
 
 #!/bin/bash
 # ==========================================
-# S.M.A.R.T - Simple Monitoring And Resource Toolkit
+# S.M.A.R.T - Smart Monitoring And Resource Toolkit
 # CSE 324 - Final Version
 # Team: Saif, Mahadi, Abir, Roshaed, Tonmoy
 # ==========================================
