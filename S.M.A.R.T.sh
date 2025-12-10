@@ -1,7 +1,6 @@
-
 #!/bin/bash
 # ==========================================
-# S.M.A.R.T - Smart Monitoring And Resource Toolkit
+# S.M.A.R.T - System Monitoring And Resource Toolkit
 # CSE 324 - Final Version
 # Team: Saif, Mahadi, Abir, Roshaed, Tonmoy
 # ==========================================
@@ -21,11 +20,9 @@ pause() {
 #Login system function
 login_system() {
 
-    PASS_FILE="password.txt"
+    PASS_FILE="$HOME/password.txt"
     MAX_TRY=3
 
-
-    
     # First Time Password Setup
 
     if [ ! -f "$PASS_FILE" ]; then
@@ -72,8 +69,44 @@ login_system() {
     done
 
     echo "Too many wrong attempts! Access denied."
+    sleep 2
     exit_animation
 }
+
+reset_password() {
+    clear
+    PASS_FILE="$HOME/password.txt"
+
+    echo -n "Enter current password: "
+    read -s CUR_PASS
+    echo
+
+    STORED_PASS=$(cat "$PASS_FILE")
+
+    if [ "$CUR_PASS" != "$STORED_PASS" ]; then
+        echo "Incorrect password!"
+        sleep 1
+        return
+    fi
+
+    echo -n "Enter new password: "
+    read -s NEW_PASS
+    echo
+    echo -n "Confirm new password: "
+    read -s CONFIRM_PASS
+    echo
+
+    if [ "$NEW_PASS" != "$CONFIRM_PASS" ]; then
+        echo "Passwords do not match!"
+        sleep 1
+        return
+    fi
+
+    echo "$NEW_PASS" > "$PASS_FILE"
+    echo "Password successfully changed!"
+    pause
+}
+
 
 
 # -----------------------------
@@ -478,7 +511,8 @@ main_menu(){
     echo "2. System Dashboard"
     echo "3. CPU Scheduling"
     echo "4. Custom Terminal"
-    echo "5. Exit"
+    echo "5. Reset Password"
+    echo "6. Exit"
     read -p "Enter choice: " choice
 
     case "$choice" in
@@ -486,7 +520,8 @@ main_menu(){
         2) system_dashboard ;;
         3) cpu_menu ;;
         4) custom_terminal ;;
-        5) 
+        5) reset_password ;;
+        6) 
            # Run Exit Animation before closing
            exit_animation 
            exit 0 
@@ -498,3 +533,4 @@ done
 
 boot_animation
 login_system
+
